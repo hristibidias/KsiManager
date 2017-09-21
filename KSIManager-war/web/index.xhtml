@@ -51,20 +51,25 @@
                                         <li><a class="waves-effect" href="#!">#{lm.Apropos}</a></li>
                                         <li><a class="waves-effect" href="#!">#{lm.Aide}</a></li>
                                         <li><a class="waves-effect" href="#!">#{lm.ManuelUtilisation}</a></li>
+                                        <li><div class="divider"></div></li>
+                                        <center>
+                                            <span style="color: green; font-size: 14px; font-weight: bold; font-style: italic">KsiManager 1.0</span><br/>
+                                            <span style="color: green; font-size: 12px; font-weight: bold; font-style: italic">copyright &copy; 2017</span>
+                                        </center>
                                     </ul>
                                     <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
                                 </p:menuitem>
 
-                                <p:menuitem  action="index.xhtml?faces-redirect=true" value="KsiManager" icon="ui-icon-home"/>
+                                <p:menuitem immediate="true" action="index.xhtml?faces-redirect=true"  value="KsiManager" icon="ui-icon-home"/>
                                 <p:submenu label="#{lm.Personnel}" icon="ui-icon-person">
                                     <p:submenu label="#{lm.ListePersonnel}">
-                                        <p:menuitem value="#{lm.Permanent}"/>
-                                        <p:menuitem value="#{lm.Temporaire}"/>
+                                        <p:menuitem immediate="true" action="personnels.xhtml?faces-redirect=true" value="#{lm.Permanent}"/>
+                                        <p:menuitem value="#{lm.prestataire}"/>
                                     </p:submenu>
                                     <p:menuitem value="#{lm.GererCarriere}"/>
                                 </p:submenu>
 
-                                <p:submenu label="#{lm.Mission}" icon="ui-icon-document">
+                                <p:submenu label="#{lm.Mission}" icon="ui-icon-document">  
                                     <p:menuitem value="#{lm.ListeMission}" url="#" />
                                     <p:menuitem value="#{lm.AjouterMission}" url="#" />
                                 </p:submenu>
@@ -102,5 +107,14 @@
             $(".button-collapse").sideNav();
         });
     </script>
-
+    <script>
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15, // Creates a dropdown of 15 years to control year,
+            today: 'Today',
+            clear: 'Clear',
+            close: 'Ok',
+            closeOnSelect: false // Close upon selecting a date,
+        });
+    </script>
 </html>

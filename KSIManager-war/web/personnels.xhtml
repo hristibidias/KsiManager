@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./index.xhtml">
+
+            <ui:define name="content">
+                <h:form id="form">
+                    <center>
+                        <h1><h:outputText value="Liste du personnel" style="color: #00c300;"/></h1> 
+                    </center>
+                    <p:dataTable value="#{UtilisateurController.listUtilisateur}" var="item">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nom"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Prénom"/>
+                            </f:facet>
+                            <h:outputText value="#{item.prenom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Date de naissance"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datenaiss}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Lieu de naissance"/>
+                            </f:facet>
+                            <h:outputText value="#{item.lieunaiss}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cni"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cni}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Sexe"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sexe}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Matricule"/>
+                            </f:facet>
+                            <h:outputText value="#{item.matricule}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Date d'embauche"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateembauche}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Pays"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pays}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Region"/>
+                            </f:facet>
+                            <h:outputText value="#{item.region}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ville"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ville}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Adresse"/>
+                            </f:facet>
+                            <h:outputText value="#{item.adresse}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Poste"/>
+                            </f:facet>
+                            <h:outputText value="#{item.poste}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:separator/><br/>
+                    <div class="row" style="margin: auto">
+                        <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" oncomplete="PF('wv_utilisateur').show()" value="Ajouter"/>
+                        <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" value="Modifier"/>
+                        <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" value="Supprimer"/>
+                        <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" value="Afficher"/>
+                        <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" value="Raffraichir"/>
+                        <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" value="Imprimer"/>
+                    </div>
+                </h:form>
+                <h:form id="form_tr">
+                    <p:dialog id="fm_utilisateur" widgetVar="wv_utilisateur">
+                        <f:facet name="header">
+                            <center>
+                                <h:outputText value="Ajouter / Editer un personnel" style="color: #00c300;"/>
+                            </center>
+                        </f:facet>
+                        <div class="row">
+                            <form class="col s12">
+                                <div class="row" style="color: black;">
+                                    <div class="input-field col s6">
+                                        <input id="nom" value="#{utilisateurController.utilisateur.nom}" title="Nom" type="text" class="validate"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="nom">Nom</label>
+                                    </div>
+                                    <div class="input-field col s6">
+                                        <input id="prenom" value="#{utilisateurController.utilisateur.prenom}" title="Prenom"  type="text" class="validate"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="prenom">Prénom</label>
+                                    </div>
+                                </div>
+                                <div class="row" style="color: black;">
+                                    <div class="input-field col s4">
+                                        <input id="datenaiss" value="#{utilisateurController.utilisateur.datenaiss}" title="Datenaiss" type="text" class="datepicker"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="datenaiss">Date de Naissance</label>
+                                    </div>
+                                    <div class="input-field col s4">
+                                        <input id="lieunaiss" value="#{utilisateurController.utilisateur.lieunaiss}" title="Lieunaiss" type="text" class="validate"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="lieunaiss">Lieu de naissance</label>
+                                    </div>
+                                    <div class="input-field col s4">
+                                        <input id="sexe" value="#{utilisateurController.utilisateur.sexe}" title="Sexe" type="text" class="validate"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="sexe">Sexe</label>
+                                    </div>
+                                </div>
+                                <div class="row" style="color: black;">
+                                    <div class="input-field col s3">
+                                        <input id="pays" value="#{utilisateurController.utilisateur.pays}" title="Pays" type="text" class="validate"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="pays">Pays</label>
+                                    </div>
+                                    <div class="input-field col s3">
+                                        <input id="region" value="#{utilisateurController.utilisateur.region}" title="Region" type="text" class="validate"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="region">Région</label>
+                                    </div>
+                                    <div class="input-field col s3">
+                                        <input id="ville" value="#{utilisateurController.utilisateur.ville}" title="Ville" type="text" class="validate"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="ville">Ville</label>
+                                    </div>
+                                    <div class="input-field col s3">
+                                        <input id="adresse" value="#{utilisateurController.utilisateur.adresse}" title="Adresse" type="text" class="validate"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="adresse">Adresse</label>
+                                    </div>
+                                </div>
+                                <div class="row" style="color: black;">
+                                    <div class="input-field col s3">
+                                        <input id="cni" value="#{utilisateurController.utilisateur.cni}" title="Cni" type="text" class="validate"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="cni">Cni</label>
+                                    </div>
+                                    <div class="input-field col s3">
+                                        <input id="poste" value="#{utilisateurController.utilisateur.poste}" title="Poste" type="text" class="validate"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="poste">Poste</label>
+                                    </div>
+                                    <div class="input-field col s3">
+                                        <input id="dateembauche" value="#{utilisateurController.utilisateur.dateembauche}" title="Dateembauche" type="text" class="datepicker"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="dateembauche">Date d'embauche</label>
+                                    </div>
+                                    <div class="input-field col s3">
+                                        <input id="matricule" value="#{utilisateurController.utilisateur.matricule}" title="Matricule" type="text" class="validate"/>
+                                        <label style="color: #00c300; font-weight: bold;" for="matricule">Matricule</label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                </div>
+                            </form>
+                        </div>
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton class="waves-effect waves-light btn col s6" value="Enregistrer" />
+                            </center>
+                        </f:facet>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
