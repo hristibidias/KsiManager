@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "utilisateur")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u")
+    @NamedQuery(name = "Utilisateur.nextId", query = "SELECT MAX(u.idutilisateur) FROM Utilisateur u")
+    ,@NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u")
     , @NamedQuery(name = "Utilisateur.findByIdutilisateur", query = "SELECT u FROM Utilisateur u WHERE u.idutilisateur = :idutilisateur")
     , @NamedQuery(name = "Utilisateur.findByNom", query = "SELECT u FROM Utilisateur u WHERE u.nom = :nom")
     , @NamedQuery(name = "Utilisateur.findByPrenom", query = "SELECT u FROM Utilisateur u WHERE u.prenom = :prenom")
@@ -50,6 +51,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Utilisateur.findByVille", query = "SELECT u FROM Utilisateur u WHERE u.ville = :ville")
     , @NamedQuery(name = "Utilisateur.findByAdresse", query = "SELECT u FROM Utilisateur u WHERE u.adresse = :adresse")
     , @NamedQuery(name = "Utilisateur.findByPoste", query = "SELECT u FROM Utilisateur u WHERE u.poste = :poste")
+    , @NamedQuery(name = "Utilisateur.findByLoginMpd", query = "SELECT u FROM Utilisateur u WHERE u.login = :login AND u.mpd=:mpd")
     , @NamedQuery(name = "Utilisateur.findByLogin", query = "SELECT u FROM Utilisateur u WHERE u.login = :login")
     , @NamedQuery(name = "Utilisateur.findByMpd", query = "SELECT u FROM Utilisateur u WHERE u.mpd = :mpd")
     , @NamedQuery(name = "Utilisateur.findByDerniereconnection", query = "SELECT u FROM Utilisateur u WHERE u.derniereconnection = :derniereconnection")
@@ -410,5 +412,8 @@ public class Utilisateur implements Serializable {
     public String toString() {
         return "entities.Utilisateur[ idutilisateur=" + idutilisateur + " ]";
     }
+
+
+    
     
 }

@@ -30,4 +30,10 @@ public interface UtilisateurFacadeLocal {
 
     int count();
     
+    public Integer nextId();
+    
+    Utilisateur findByLoginMpd(String login, String mpd);
+    
+    List<Utilisateur> findByLogin(String login);
+    
 }

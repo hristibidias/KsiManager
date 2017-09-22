@@ -13,9 +13,15 @@
             <ui:define name="content">
                 <h:form id="form">
                     <center>
+                        <h:outputText value="#{utilisateurController.msg}" style="color: #00c300;"/> 
+                    </center>
+
+                    <p:separator/>
+
+                    <center>
                         <h1><h:outputText value="Liste du personnel" style="color: #00c300;"/></h1> 
                     </center>
-                    <p:dataTable value="#{UtilisateurController.listUtilisateur}" var="item">
+                    <p:dataTable id="table" value="#{UtilisateurController.listUtilisateur}" var="item">
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Nom"/>
@@ -101,7 +107,7 @@
                     </p:dataTable>
                     <p:separator/><br/>
                     <div class="row" style="margin: auto">
-                        <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" oncomplete="PF('wv_utilisateur').show()" value="Ajouter"/>
+                        <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" actionListener="#{utilisateurController.prepareCreate}" widgetVar="add" partialSubmit="true" update=":form_tr:fm_utilisateur" oncomplete="PF('wv_utilisateur').show()" value="Ajouter"/>
                         <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" value="Modifier"/>
                         <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" value="Supprimer"/>
                         <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" value="Afficher"/>
@@ -109,87 +115,74 @@
                         <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" value="Imprimer"/>
                     </div>
                 </h:form>
-                <h:form id="form_tr">
+
+                <h:form id="form_tr">  
                     <p:dialog id="fm_utilisateur" widgetVar="wv_utilisateur">
                         <f:facet name="header">
                             <center>
                                 <h:outputText value="Ajouter / Editer un personnel" style="color: #00c300;"/>
                             </center>
                         </f:facet>
-                        <div class="row">
-                            <form class="col s12">
-                                <div class="row" style="color: black;">
-                                    <div class="input-field col s6">
-                                        <input id="nom" value="#{utilisateurController.utilisateur.nom}" title="Nom" type="text" class="validate"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="nom">Nom</label>
-                                    </div>
-                                    <div class="input-field col s6">
-                                        <input id="prenom" value="#{utilisateurController.utilisateur.prenom}" title="Prenom"  type="text" class="validate"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="prenom">Prénom</label>
-                                    </div>
-                                </div>
-                                <div class="row" style="color: black;">
-                                    <div class="input-field col s4">
-                                        <input id="datenaiss" value="#{utilisateurController.utilisateur.datenaiss}" title="Datenaiss" type="text" class="datepicker"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="datenaiss">Date de Naissance</label>
-                                    </div>
-                                    <div class="input-field col s4">
-                                        <input id="lieunaiss" value="#{utilisateurController.utilisateur.lieunaiss}" title="Lieunaiss" type="text" class="validate"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="lieunaiss">Lieu de naissance</label>
-                                    </div>
-                                    <div class="input-field col s4">
-                                        <input id="sexe" value="#{utilisateurController.utilisateur.sexe}" title="Sexe" type="text" class="validate"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="sexe">Sexe</label>
-                                    </div>
-                                </div>
-                                <div class="row" style="color: black;">
-                                    <div class="input-field col s3">
-                                        <input id="pays" value="#{utilisateurController.utilisateur.pays}" title="Pays" type="text" class="validate"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="pays">Pays</label>
-                                    </div>
-                                    <div class="input-field col s3">
-                                        <input id="region" value="#{utilisateurController.utilisateur.region}" title="Region" type="text" class="validate"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="region">Région</label>
-                                    </div>
-                                    <div class="input-field col s3">
-                                        <input id="ville" value="#{utilisateurController.utilisateur.ville}" title="Ville" type="text" class="validate"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="ville">Ville</label>
-                                    </div>
-                                    <div class="input-field col s3">
-                                        <input id="adresse" value="#{utilisateurController.utilisateur.adresse}" title="Adresse" type="text" class="validate"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="adresse">Adresse</label>
-                                    </div>
-                                </div>
-                                <div class="row" style="color: black;">
-                                    <div class="input-field col s3">
-                                        <input id="cni" value="#{utilisateurController.utilisateur.cni}" title="Cni" type="text" class="validate"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="cni">Cni</label>
-                                    </div>
-                                    <div class="input-field col s3">
-                                        <input id="poste" value="#{utilisateurController.utilisateur.poste}" title="Poste" type="text" class="validate"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="poste">Poste</label>
-                                    </div>
-                                    <div class="input-field col s3">
-                                        <input id="dateembauche" value="#{utilisateurController.utilisateur.dateembauche}" title="Dateembauche" type="text" class="datepicker"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="dateembauche">Date d'embauche</label>
-                                    </div>
-                                    <div class="input-field col s3">
-                                        <input id="matricule" value="#{utilisateurController.utilisateur.matricule}" title="Matricule" type="text" class="validate"/>
-                                        <label style="color: #00c300; font-weight: bold;" for="matricule">Matricule</label>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                </div>
-                            </form>
-                        </div>
+                        <p:panelGrid id="inputs" columns="6">
+                            
+                                            <label style="color: #00c300; font-weight: bold;" for="nom">Nom</label>
+                                            <p:inputText id="nom" value="#{utilisateurController.utilisateur.nom}" title="Nom" type="text" class="validate" />
+                                        
+                                            <label style="color: #00c300; font-weight: bold;" for="prenom">Prénom</label>
+                                            <p:inputText id="prenom" value="#{utilisateurController.utilisateur.prenom}" title="Prenom"  type="text" class="validate" />
+                                        
+                                            <label style="color: #00c300; font-weight: bold;" for="datenaiss">Date de Naissance</label>
+                                            <p:inputText id="datenaiss" value="#{utilisateurController.utilisateur.datenaiss}" title="Datenaiss" type="text" >
+                                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            </p:inputText>
+                                        
+                                            <label style="color: #00c300; font-weight: bold;" for="lieunaiss">Lieu de naissance</label>
+                                            <p:inputText id="lieunaiss" value="#{utilisateurController.utilisateur.lieunaiss}" title="Lieunaiss" type="text" class="validate"/>
+                                        
+                                            <label style="color: #00c300; font-weight: bold;" for="sexe">Sexe</label>
+                                            <p:inputText id="sexe" value="#{utilisateurController.utilisateur.sexe}" title="Sexe" type="text" class="validate"/>
+                                        
+                                            <label style="color: #00c300; font-weight: bold;" for="pays">Pays</label>
+                                            <p:inputText id="pays" value="#{utilisateurController.utilisateur.pays}" title="Pays" type="text" class="validate"/>
+                                        
+                                            <label style="color: #00c300; font-weight: bold;" for="region">Région</label>
+                                            <p:inputText id="region" value="#{utilisateurController.utilisateur.region}" title="Region" type="text" class="validate"/>
+                                        
+                                            <label style="color: #00c300; font-weight: bold;" for="ville">Ville</label>
+                                            <p:inputText id="ville" value="#{utilisateurController.utilisateur.ville}" title="Ville" type="text" class="validate"/>
+                                        
+                                            <label style="color: #00c300; font-weight: bold;" for="adresse">Adresse</label>
+                                            <p:inputText id="adresse" value="#{utilisateurController.utilisateur.adresse}" title="Adresse" type="text" class="validate"/>
+                                        
+                                            <label style="color: #00c300; font-weight: bold;" for="cni">Cni</label>
+                                            <p:inputText id="cni" value="#{utilisateurController.utilisateur.cni}" title="Cni" type="text" class="validate"/>
+                                        
+                                            <label style="color: #00c300; font-weight: bold;" for="poste">Poste</label>
+                                            <p:inputText id="poste" value="#{utilisateurController.utilisateur.poste}" title="Poste" type="text" class="validate"/>
+                                        
+                                            <label style="color: #00c300; font-weight: bold;" for="dateembauche">Date d'embauche</label>
+                                            <p:inputText id="dateembauche" value="#{utilisateurController.utilisateur.dateembauche}" title="Dateembauche" type="text">
+                                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            </p:inputText>
+                                        
+                                            <label style="color: #00c300; font-weight: bold;" for="matricule">Matricule</label>
+                                            <p:inputText id="matricule" value="#{utilisateurController.utilisateur.matricule}" title="Matricule" type="text" class="validate"/>
+                                            
+                                            <label style="color: #00c300; font-weight: bold;" for="login">Login</label>
+                                            <p:inputText id="login" value="#{utilisateurController.utilisateur.login}" title="login" type="text" class="validate"/>
+                                            
+                                            <label style="color: #00c300; font-weight: bold;" for="mdp">Mot de passe</label>
+                                            <p:inputText id="mdp" value="#{utilisateurController.utilisateur.mpd}" title="mdp" type="text" class="validate"/>
+                                        
+                        </p:panelGrid>
                         <f:facet name="footer">
                             <center>
-                                <p:commandButton class="waves-effect waves-light btn col s6" value="Enregistrer" />
+                                <p:commandButton class="waves-effect waves-light btn col s6" actionListener="#{utilisateurController.persist()}" update="inputs, :form:table" value="Enregistrer" /> 
                             </center>
                         </f:facet>
                     </p:dialog>
                 </h:form>
+
             </ui:define>
         </ui:composition>
 

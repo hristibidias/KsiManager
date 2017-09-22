@@ -6,9 +6,11 @@
 package sessions;
 
 import entities.Utilisateur;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,35 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> implements Ut
         super(Utilisateur.class);
     }
     
+    @Override
+    public Integer nextId(){
+        try {
+            Query query = em.createNamedQuery("Utilisateur.nextId");
+            return ((Integer) query.getSingleResult()) + 1;
+        } catch (Exception e) {
+            return 1;
+        }
+    }
+    
+    @Override
+    public Utilisateur findByLoginMpd(String login, String mpd) {
+	    try {
+            Query query = em.createNamedQuery("Utilisateur.findByLoginMpd");
+            query.setParameter("login", login).setParameter("mpd", mpd);  
+            return (Utilisateur) query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    @Override
+    public List<Utilisateur> findByLogin(String login) {
+	    try {
+            Query query = em.createNamedQuery("Utilisateur.findByLogin");
+            query.setParameter("login", login);
+            return query.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
