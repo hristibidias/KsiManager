@@ -25,7 +25,7 @@ import sessions.UtilisateurFacadeLocal;
  *
  * @author Hristi
  */
-public class UtilisateurController {
+public class UtilisateurController implements java.io.Serializable{
 
     @EJB
     private UtilisateurFacadeLocal utilisateurFacade;
@@ -130,10 +130,7 @@ public class UtilisateurController {
             case "add":
                 saveAccount();
                 break;
-            case "savePersonnel":
-                savePersonnel();
-                break;
-            case "modifyAccount":
+            case "modify":
                 modifyAccount();
                 break;
             case "modifyPersonnel":
@@ -142,9 +139,12 @@ public class UtilisateurController {
             case "delete":
                 deleteAccount();
                 break;
+            case "savePersonnel":
+                savePersonnel();
+                break;
         }
     }
-
+ 
 //    public String imprimer() {
 //        try {
 //            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(listUtilisateur);
