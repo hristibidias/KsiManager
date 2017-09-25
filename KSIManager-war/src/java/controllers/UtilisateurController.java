@@ -6,18 +6,22 @@
 package controllers;
 
 import entities.Utilisateur;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javafx.beans.binding.Bindings;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import org.primefaces.component.commandbutton.CommandButton;
+import static net.sf.jasperreports.engine.JasperExportManager.exportReportToPdfStream;
+import static net.sf.jasperreports.engine.JasperFillManager.fillReport;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.primefaces.component.commandbutton.CommandButton;  
 import org.primefaces.context.RequestContext;
 import sessions.UtilisateurFacadeLocal;
 
@@ -25,7 +29,7 @@ import sessions.UtilisateurFacadeLocal;
  *
  * @author Hristi
  */
-public class UtilisateurController implements java.io.Serializable{
+public class UtilisateurController implements Serializable{
 
     @EJB
     private UtilisateurFacadeLocal utilisateurFacade;
@@ -62,13 +66,13 @@ public class UtilisateurController implements java.io.Serializable{
 
     public void saveAccount() {
         try {
-                utilisateur.setIdutilisateur(utilisateurFacade.nextId());
-                utilisateur.setMpd(((Integer) utilisateur.getMpd().hashCode()).toString());
+                utilisateur.setIdutilisateur(utilisateurFacade.nextId()); 
                 utilisateurFacade.create(utilisateur);
                 msg = "Opération effectuée avec succès!";
                 RequestContext.getCurrentInstance().execute("PF('wv_utilisateur').hide()"); 
         } catch (Exception e) {
             e.printStackTrace();
+            RequestContext.getCurrentInstance().execute("PF('wv_utilisateur').hide()");
             msg = "Echec de l'opération!";
         } finally {
             init();
@@ -145,25 +149,25 @@ public class UtilisateurController implements java.io.Serializable{
         }
     }
  
-//    public String imprimer() {
-//        try {
-//            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(listUtilisateur);
-//            String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("resources/etats/listUtilisateur.jasper");
-//            Map parameters = new HashMap();
-//            parameters.put("USER", connectedUser);
-//            parameters.put("REPORT_LOCALE", FacesContext.getCurrentInstance().getViewRoot().getLocale());
-//            JasperPrint jasperPrint = fillReport(reportPath, parameters, beanCollectionDataSource);
-//            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-//            httpServletResponse.addHeader("Content-disposition", "attachment; filename=listUtilisateur.pdf");
-//            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-//            exportReportToPdfStream(jasperPrint, servletOutputStream);
-//            FacesContext.getCurrentInstance().responseComplete();
-//            ----------------------------------------------
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return FacesContext.getCurrentInstance().getExternalContext().getRequestPathInfo() + "?faces-redirect=true";
-//    }
+    public String imprimer() {
+        try {
+            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(listUtilisateur);
+            String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("resources/etats/listUtilisateur.jasper");
+            Map parameters = new HashMap();
+            //parameters.put("USER", connectedUser);
+            parameters.put("REPORT_LOCALE", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            JasperPrint jasperPrint = fillReport(reportPath, parameters, beanCollectionDataSource);
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "attachment; filename=listUtilisateur.pdf");
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+            exportReportToPdfStream(jasperPrint, servletOutputStream);
+            FacesContext.getCurrentInstance().responseComplete();
+            //----------------------------------------------
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return FacesContext.getCurrentInstance().getExternalContext().getRequestPathInfo() + "?faces-redirect=true";
+    }
     public UtilisateurFacadeLocal getUtilisateurFacade() {
         return utilisateurFacade;
     }

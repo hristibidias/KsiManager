@@ -111,13 +111,13 @@
                     <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" actionListener="#{utilisateurController.action}" widgetVar="modify" update=":form_tr:fm_utilisateur,msg" partialSubmit="true" oncomplete="PF('wv_utilisateur').show()" value="Modifier"/>
                     <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" actionListener="#{utilisateurController.action}" widgetVar="delete" update=":form_tr:fm_utilisateur,msg" partialSubmit="true" oncomplete="PF('wv_utilisateur').show()" value="Supprimer"/> 
                     <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" actionListener="#{utilisateurController.action}" widgetVar="consult" update=":form_tr:fm_utilisateur,msg" partialSubmit="true" oncomplete="PF('wv_utilisateur').show()" value="Afficher"/>
-                    <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" value="Raffraichir"/>
-                    <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" value="Imprimer"/>
+                    <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" widgetVar="refresh" actionListener="#{utilisateurController.init()}" update="table,msg" partialSubmit="true" value="Rafraichir"/>
+                    <p:commandButton style="margin-left: 70px;" class="waves-effect waves-light btn col s1.99" widgetVar="print" action="#{utilisateurController.imprimer()}" immediate="true" ajax="false" value="Imprimer"/>
                 </div> 
                 </h:form> 
 
                 <h:form id="form_tr">   
-                    <p:dialog id="fm_utilisateur" widgetVar="wv_utilisateur">
+                    <p:dialog modal="true" id="fm_utilisateur" widgetVar="wv_utilisateur">
                         <f:facet name="header">
                             <center>
                                 <h:outputText value="Ajouter / Editer un personnel" style="color: #00c300;"/>
@@ -172,12 +172,7 @@
                             <label style="color: #00c300; font-weight: bold;" for="matricule">Matricule</label>
                             <p:inputText disabled="#{utilisateurController.operation.equals('delete') or utilisateurController.operation.equals('consult')}" required="true" id="matricule" value="#{utilisateurController.utilisateur.matricule}" title="Matricule" type="text" class="validate"/>
 
-                            <label style="color: #00c300; font-weight: bold;" for="login">Login</label>
-                            <p:inputText disabled="#{utilisateurController.operation.equals('delete') or utilisateurController.operation.equals('consult')}" required="true" id="login" value="#{utilisateurController.utilisateur.login}" title="login" type="text" class="validate"/>
-
-                            <label style="color: #00c300; font-weight: bold;" for="mdp">Mot de passe</label>
-                            <p:password disabled="#{utilisateurController.operation.equals('delete') or utilisateurController.operation.equals('consult')}" feedback="true" required="true" id="mdp" value="#{utilisateurController.utilisateur.mpd}" title="mdp" class="validate"/>
-
+                            
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>
