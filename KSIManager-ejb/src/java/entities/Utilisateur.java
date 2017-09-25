@@ -34,8 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "utilisateur")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Utilisateur.nextId", query = "SELECT MAX(u.idutilisateur) FROM Utilisateur u")
-    ,@NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u")
+    @NamedQuery(name = "Utilisateur.nextId", query = "SELECT MAX (u.idutilisateur) FROM Utilisateur u")
+    , @NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u")
     , @NamedQuery(name = "Utilisateur.findByIdutilisateur", query = "SELECT u FROM Utilisateur u WHERE u.idutilisateur = :idutilisateur")
     , @NamedQuery(name = "Utilisateur.findByNom", query = "SELECT u FROM Utilisateur u WHERE u.nom = :nom")
     , @NamedQuery(name = "Utilisateur.findByPrenom", query = "SELECT u FROM Utilisateur u WHERE u.prenom = :prenom")
@@ -51,13 +51,16 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Utilisateur.findByVille", query = "SELECT u FROM Utilisateur u WHERE u.ville = :ville")
     , @NamedQuery(name = "Utilisateur.findByAdresse", query = "SELECT u FROM Utilisateur u WHERE u.adresse = :adresse")
     , @NamedQuery(name = "Utilisateur.findByPoste", query = "SELECT u FROM Utilisateur u WHERE u.poste = :poste")
-    , @NamedQuery(name = "Utilisateur.findByLoginMpd", query = "SELECT u FROM Utilisateur u WHERE u.login = :login AND u.mpd=:mpd")
-    , @NamedQuery(name = "Utilisateur.findByLogin", query = "SELECT u FROM Utilisateur u WHERE u.login = :login")
+    , @NamedQuery(name = "Utilisateur.findByLoginMdp", query = "SELECT u FROM Utilisateur u WHERE u.login = :login AND u.mpd = :mpd")
+    ,@NamedQuery(name = "Utilisateur.findByLogin", query = "SELECT u FROM Utilisateur u WHERE u.login = :login")
     , @NamedQuery(name = "Utilisateur.findByMpd", query = "SELECT u FROM Utilisateur u WHERE u.mpd = :mpd")
     , @NamedQuery(name = "Utilisateur.findByDerniereconnection", query = "SELECT u FROM Utilisateur u WHERE u.derniereconnection = :derniereconnection")
     , @NamedQuery(name = "Utilisateur.findByDernieredeconnection", query = "SELECT u FROM Utilisateur u WHERE u.dernieredeconnection = :dernieredeconnection")
     , @NamedQuery(name = "Utilisateur.findByNbreconnection", query = "SELECT u FROM Utilisateur u WHERE u.nbreconnection = :nbreconnection")
-    , @NamedQuery(name = "Utilisateur.findByEtatconnection", query = "SELECT u FROM Utilisateur u WHERE u.etatconnection = :etatconnection")})
+    , @NamedQuery(name = "Utilisateur.findByEtatconnection", query = "SELECT u FROM Utilisateur u WHERE u.etatconnection = :etatconnection")
+    , @NamedQuery(name = "Utilisateur.findByEmail", query = "SELECT u FROM Utilisateur u WHERE u.email = :email")
+    , @NamedQuery(name = "Utilisateur.findByTel", query = "SELECT u FROM Utilisateur u WHERE u.tel = :tel")
+    , @NamedQuery(name = "Utilisateur.findByStatutuser", query = "SELECT u FROM Utilisateur u WHERE u.statutuser = :statutuser")})
 public class Utilisateur implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -124,6 +127,15 @@ public class Utilisateur implements Serializable {
     private Integer nbreconnection;
     @Column(name = "etatconnection")
     private Integer etatconnection;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 2147483647)
+    @Column(name = "email")
+    private String email;
+    @Size(max = 20)
+    @Column(name = "tel")
+    private String tel;
+    @Column(name = "statutuser")
+    private Integer statutuser;
     @ManyToMany(mappedBy = "utilisateurCollection")
     private Collection<Menu> menuCollection;
     @ManyToMany(mappedBy = "utilisateurCollection")
@@ -316,6 +328,30 @@ public class Utilisateur implements Serializable {
         this.etatconnection = etatconnection;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public Integer getStatutuser() {
+        return statutuser;
+    }
+
+    public void setStatutuser(Integer statutuser) {
+        this.statutuser = statutuser;
+    }
+
     @XmlTransient
     public Collection<Menu> getMenuCollection() {
         return menuCollection;
@@ -412,8 +448,5 @@ public class Utilisateur implements Serializable {
     public String toString() {
         return "entities.Utilisateur[ idutilisateur=" + idutilisateur + " ]";
     }
-
-
-    
     
 }
